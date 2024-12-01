@@ -1,0 +1,12 @@
+schemaVersion: 2.1.0
+metadata:
+  name: codeassist-images
+attributes:
+  controller.devfile.io/storage-type: ephemeral
+  controller.devfile.io/scc: container-build
+components:
+  - name: codeassisttools
+    container:
+      image: quay.io/danclark/devspaces-code-assist:latest
+      memoryLimit: 2Gi
+      memoryRequest: 256Mi
