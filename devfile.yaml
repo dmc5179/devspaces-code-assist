@@ -4,9 +4,29 @@ metadata:
 attributes:
   controller.devfile.io/storage-type: ephemeral
   controller.devfile.io/scc: container-build
+  .continue/config.json: |
+    {
+      "models": [
+        {
+          "title": "On-prem Codellama7b",
+          "model": "codellama:7b",
+          "apiBase": "http://ollama.ollama.svc.local:11434",
+          "provider": "ollama"
+          }    
+        ],
+      "tabAutocompleteModel": {
+        "title": "codellama",
+        "provider": "ollama",
+        "model": "codellama:7b"
+      },
+      "allowAnonymousTelemetry": false
+    }
 components:
   - name: codeassisttools
     container:
-      image: quay.io/danclark/devspaces-code-assist:latest
-      memoryLimit: 2Gi
-      memoryRequest: 256Mi
+      image: registry.redhat.io/devspaces/udi-rhel8:latest
+      #env:
+      #  - name: 'DEFAULT_EXTENSION'
+      #    value: '/projects/continue/extension.vsix'
+      memoryLimit: 8Gi
+      memoryRequest: 2Gi
