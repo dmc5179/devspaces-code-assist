@@ -28,5 +28,5 @@ components:
       #env:
       #  - name: 'DEFAULT_EXTENSION'
       #    value: '/projects/continue/extension.vsix'
-      memoryLimit: 8Gi
+      memoryLimit: 4Gi
       memoryRequest: 2Gi
