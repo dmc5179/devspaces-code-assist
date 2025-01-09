@@ -1,11 +1,16 @@
 {
-  "allowAnonymousTelemetry": false,
   "models": [
     {
-      "title": "Llama3.1 8B",
-      "provider": "ollama",
-      "apiBase": "http://ollama:11434/v1",
-      "model": "llama3.1:8b"
+      "title": "On-prem Codellama7b",
+      "model": "codellama:7b",
+      "apiBase": "http://ollama.ollama.svc.local:11434",
+      "provider": "ollama"
     }
-  ]
+  ],
+  "tabAutocompleteModel": {
+    "title": "codellama",
+    "provider": "ollama",
+    "model": "codellama:7b"
+  },
+  "allowAnonymousTelemetry": false
 }
