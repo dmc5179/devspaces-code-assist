@@ -1,35 +1,97 @@
-kind: ConfigMap
 apiVersion: v1
+data:
+  config.yaml: |
+    name: MyProject
+    version: 0.0.1
+    schema: v1
+
+    models:
+    #  - uses: anthropic/claude-3.5-sonnet
+    #    with:
+    #      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+    #    override:
+    #      defaultCompletionOptions:
+    #        temperature: 0.8
+    #  - name: GPT-4
+    #    provider: openai
+    #    model: gpt-4
+    #    roles:
+    #      - chat
+    #      - edit
+    #    defaultCompletionOptions:
+    #      temperature: 0.5
+    #      maxTokens: 2000
+    #    requestOptions:
+    #      headers:
+    #        Authorization: Bearer YOUR_OPENAI_API_KEY
+
+      - name: On-prem granite-code 8B
+        provider: ollama
+        apiBase: http://ollama.ollama.svc.cluster.local:11434
+        apiKey: "fake"
+        model: granite-code:8b
+        roles:
+          - autocomplete
+        defaultCompletionOptions:
+          temperature: 0.3
+          stop:
+            - "\n"
+
+    rules:
+      - Give concise responses
+      - Always assume TypeScript rather than JavaScript
+
+    prompts:
+      - name: test
+        description: Unit test a function
+        prompt: |
+          Please write a complete suite of unit tests for this function. You should use the Jest testing framework.  The tests should cover all possible edge cases and should be as thorough as possible.  You should also include a description of each test case.
+      - uses: myprofile/my-favorite-prompt
+
+    context:
+      - uses: continuedev/diff-context
+      - uses: continuedev/codebase-context
+      - uses: continuedev/url-context
+      - uses: continuedev/folder-context
+      - uses: continuedev/terminal-context
+      - uses: continuedev/code-context
+      - uses: continuedev/file-context
+
+    #context:
+    #  - provider: diff
+    #  - provider: file
+    #  - provider: codebase
+    #  - provider: code
+    #  - provider: docs
+    #    params:
+    #      startUrl: https://docs.example.com/introduction
+    #      rootUrl: https://docs.example.com
+    #      maxDepth: 3
+
+    #mcpServers:
+    #  - name: DevServer
+    #    command: npm
+    #    args:
+    #      - run
+    #      - dev
+    #    env:
+    #      PORT: "3000"
+
+    #data:
+    #  - name: My Private Company
+    #    destination: https://mycompany.com/ingest
+    #    schema: 0.2.0
+    #    level: noCode
+    #    events:
+    #      - autocomplete
+    #      - chatInteraction
+kind: ConfigMap
 metadata:
   name: continue-config-cm
+  #namespace: danclark-devspaces
   labels:
     controller.devfile.io/mount-to-devworkspace: 'true'
     controller.devfile.io/watch-configmap: 'true'
   annotations:
     controller.devfile.io/mount-as: file
     controller.devfile.io/mount-path: '/home/user/.continue'
-data:
-  config.json: |
-    {
-      "models": [
-        {
-          "title": "On-prem granite-code 8B",
-          "model": "granite-code:8b",
-          "apiBase": "http://ollama.ollama.svc.cluster.local:11434",
-          "provider": "ollama"
-        }
-      ],
-      "tabAutocompleteModel": {
-        "title": "granitecode",
-        "provider": "ollama",
-        "model": "granite-code:8b"
-      },
-      "customCommands": [
-        {
-          "name": "test",
-          "prompt": "{{{ input }}}\n\nWrite a comprehensive set of unit tests for the selected code. It should setup, run tests that check for correctness including important edge cases, and teardown. Ensure that the tests are complete and sophisticated. Give the tests just as chat output, don't edit any file.",
-          "description": "Write unit tests for highlighted code"
-        }
-      ],
-      "allowAnonymousTelemetry": false
-    }
