@@ -1,5 +1,3 @@
 {
-  "recommendations": [
-    "https://www.open-vsx.org/extension/Continue/continue"
-  ]
+  "recommendations": ["Continue.continue"]
 }
