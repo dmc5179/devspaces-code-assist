@@ -1,0 +1,35 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: continue-config-cm
+  labels:
+    controller.devfile.io/mount-to-devworkspace: 'true'
+    controller.devfile.io/watch-configmap: 'true'
+  annotations:
+    controller.devfile.io/mount-as: file
+    controller.devfile.io/mount-path: '/home/user/.continue'
+data:
+  config.json: |
+    {
+      "models": [
+        {
+          "title": "On-prem granite-code 8B",
+          "model": "granite-code:8b",
+          "apiBase": "http://ollama.ollama.svc.cluster.local:11434",
+          "provider": "ollama"
+        }
+      ],
+      "tabAutocompleteModel": {
+        "title": "granitecode",
+        "provider": "ollama",
+        "model": "granite-code:8b"
+      },
+      "customCommands": [
+        {
+          "name": "test",
+          "prompt": "{{{ input }}}\n\nWrite a comprehensive set of unit tests for the selected code. It should setup, run tests that check for correctness including important edge cases, and teardown. Ensure that the tests are complete and sophisticated. Give the tests just as chat output, don't edit any file.",
+          "description": "Write unit tests for highlighted code"
+        }
+      ],
+      "allowAnonymousTelemetry": false
+    }
