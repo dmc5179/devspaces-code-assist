@@ -5,14 +5,27 @@ metadata:
 spec:
   started: true
   template:
+    attributes:
+        controller.devfile.io/storage-type: ephemeral
+    projects:
+      - name: web-nodejs-sample
+        git:
+          remotes:
+            origin: "https://github.com/che-samples/web-nodejs-sample.git"
+    commands:
+      - id: say-hello
+        exec:
+          component: dev
+          commandLine: echo "Hello from $(pwd)"
+          workingDir: ${PROJECT_SOURCE}/app
     components:
       - name: dev
         container:
           image: quay.io/devfile/universal-developer-image:latest
-          memoryLimit: 8Gi
-          memoryRequest: 2Gi
-          cpuRequest: '1'
-          cpuLimit: '4'
+          memoryLimit: 16Gi
+          memoryRequest: 8Gi
+          cpuRequest: '2'
+          cpuLimit: '8'
   contributions:
     - name: che-code
       uri: https://eclipse-che.github.io/che-plugin-registry/main/v3/plugins/che-incubator/che-code/latest/devfile.yaml
