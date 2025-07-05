@@ -1,37 +1,61 @@
-kind: DevWorkspace
-apiVersion: workspace.devfile.io/v1alpha2
-metadata:
-  name: code-latest
-spec:
-  started: true
-  template:
-    attributes:
-        controller.devfile.io/storage-type: ephemeral
-    projects:
-      - name: web-nodejs-sample
-        git:
-          remotes:
-            origin: "https://github.com/che-samples/web-nodejs-sample.git"
-    commands:
-      - id: say-hello
-        exec:
-          component: dev
-          commandLine: echo "Hello from $(pwd)"
-          workingDir: ${PROJECT_SOURCE}/app
-    components:
-      - name: dev
-        container:
-          image: quay.io/devfile/universal-developer-image:latest
-          memoryLimit: 16Gi
-          memoryRequest: 8Gi
-          cpuRequest: '2'
-          cpuLimit: '8'
-  contributions:
-    - name: che-code
-      uri: https://eclipse-che.github.io/che-plugin-registry/main/v3/plugins/che-incubator/che-code/latest/devfile.yaml
-      components:
-        - name: che-code-runtime-description
-          container:
-            env:
-              - name: CODE_HOST
-                value: 0.0.0.0
+#kind: DevWorkspace
+#apiVersion: workspace.devfile.io/v1alpha2
+#metadata:
+#  name: code-latest
+#spec:
+#  started: true
+#  template:
+schemaVersion: 2.2.0
+attributes:
+    controller.devfile.io/storage-type: per-workspace
+projects:
+  - name: web-nodejs-sample
+    git:
+      remotes:
+        origin: "https://github.com/che-samples/web-nodejs-sample.git"
+commands:
+- apply:
+    component: prep-workspace
+    label: Pre Start Prep
+  id: prep-workspace
+events:
+  preStart:
+    - prep-workspace
+components:
+  - name: dev
+    container:
+      image: quay.io/devfile/universal-developer-image:latest
+      memoryLimit: 16Gi
+      memoryRequest: 8Gi
+      cpuRequest: '2'
+      cpuLimit: '8'
+  - volume:
+      size: 50Gi
+    name: projects
+  - name: prep-workspace
+    container:
+      args:
+        - '-c'
+        - >-
+          if [[ ! -d ${HOME}/.continue ]]; then mkdir ${HOME}/.continue; fi && if [[ ! -f ${HOME}/.continue/config.yaml ]]; then cp /projects/home/.continue/config.yaml ${HOME}/.continue/config.yaml; fi
+      command:
+        - /bin/bash
+      image: registry.redhat.io/ubi9/ubi-minimal:latest
+      mountSources: true
+      sourceMapping: /projects
+      memoryRequest: 128Mi
+      memoryLimit: 256Mi
+      cpuRequest: 10m
+      cpuLimit: 200m
+      env:
+      - name: HOME
+        value: "/projects/home"
+#  contributions:
+#    - name: che-code
+#      uri: https://eclipse-che.github.io/che-plugin-registry/main/v3/plugins/che-incubator/che-code/latest/devfile.yaml
+#      components:
+#        - name: che-code-runtime-description
+#          container:
+#            env:
+#              - name: CODE_HOST
+#                value: 0.0.0.0
