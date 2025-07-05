@@ -32,7 +32,7 @@ components:
       cpuLimit: '8'
 #  - volume:
 #      size: 50Gi
-    name: projects
+#    name: projects
   - name: prep-workspace
     container:
       args:
