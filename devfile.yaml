@@ -15,10 +15,10 @@ projects:
       remotes:
         origin: "https://github.com/che-samples/web-nodejs-sample.git"
 commands:
-- apply:
-    component: prep-workspace
+  - id: prep-workspace
+    apply:
+      component: prep-workspace
     label: Pre Start Prep
-  id: prep-workspace
 events:
   preStart:
     - prep-workspace
@@ -30,6 +30,7 @@ components:
       memoryRequest: 8Gi
       cpuRequest: '2'
       cpuLimit: '8'
+      #mountSources: true
 #  - volume:
 #      size: 50Gi
 #    name: projects
@@ -38,19 +39,20 @@ components:
       args:
         - '-c'
         - >-
-        - mkdir ${HOME}/.continue || true; cp /home/user/danconfig/continue.yaml ${HOME}/.continue/config.yaml || true
+        - touch ${HOME}/thisisatest.txt
       command:
         - /bin/bash
       image: registry.redhat.io/ubi9/ubi-minimal:latest
-      mountSources: true
-      sourceMapping: /projects
+      #mountSources: true
+      #sourceMapping: /projects
+      #volumeMounts: #TODO, PVCs maybe
       memoryRequest: 128Mi
       memoryLimit: 256Mi
       cpuRequest: 10m
       cpuLimit: 200m
-      env:
-      - name: HOME
-        value: "/home/user"
+      #env:
+      #- name: HOME
+      #  value: "/home/user"
 #  contributions:
 #    - name: che-code
 #      uri: https://eclipse-che.github.io/che-plugin-registry/main/v3/plugins/che-incubator/che-code/latest/devfile.yaml
