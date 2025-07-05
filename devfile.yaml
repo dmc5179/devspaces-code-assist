@@ -38,7 +38,7 @@ components:
       args:
         - '-c'
         - >-
-          if [[ ! -d ${HOME}/.continue ]]; then mkdir ${HOME}/.continue; fi && if [[ ! -f ${HOME}/.continue/config.yaml ]]; then cp /projects/home/.continue/config.yaml ${HOME}/.continue/config.yaml; fi
+        - mkdir ${HOME}/.continue || true; cp /projects/home/.continue/config.yaml ${HOME}/.continue/config.yaml || true
       command:
         - /bin/bash
       image: registry.redhat.io/ubi9/ubi-minimal:latest
