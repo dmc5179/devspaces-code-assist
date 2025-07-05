@@ -38,7 +38,7 @@ components:
       args:
         - '-c'
         - >-
-        - mkdir ${HOME}/.continue || true; cp /projects/home/.continue/config.yaml ${HOME}/.continue/config.yaml || true
+        - mkdir ${HOME}/.continue || true; cp /home/user/danconfig/continue.yaml ${HOME}/.continue/config.yaml || true
       command:
         - /bin/bash
       image: registry.redhat.io/ubi9/ubi-minimal:latest
@@ -48,9 +48,9 @@ components:
       memoryLimit: 256Mi
       cpuRequest: 10m
       cpuLimit: 200m
-      env:
-      - name: HOME
-        value: "/projects/home"
+#      env:
+#      - name: HOME
+#        value: "/projects/home"
 #  contributions:
 #    - name: che-code
 #      uri: https://eclipse-che.github.io/che-plugin-registry/main/v3/plugins/che-incubator/che-code/latest/devfile.yaml
