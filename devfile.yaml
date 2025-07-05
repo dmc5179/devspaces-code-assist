@@ -39,10 +39,11 @@ components:
       args:
         - '-c'
         - >-
-        - touch ${HOME}/thisisatest.txt
+        - touch /home/user/thisisatest.txt
       command:
         - /bin/bash
-      image: registry.redhat.io/ubi9/ubi-minimal:latest
+      #image: registry.redhat.io/ubi9/ubi-minimal:latest
+      image: quay.io/devspaces/udi-base-rhel9:latest
       #mountSources: true
       #sourceMapping: /projects
       #volumeMounts: #TODO, PVCs maybe
