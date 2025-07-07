@@ -10,10 +10,20 @@ attributes:
     controller.devfile.io/storage-type: per-workspace
     #controller.devfile.io/storage-type: ephemeral
 projects:
-  - name: web-nodejs-sample
+  - name: my-little-code-assistant
     git:
       remotes:
-        origin: "https://github.com/che-samples/web-nodejs-sample.git"
+        origin: https://github.com/cgruver/my-little-code-assistant.git
+      checkoutFrom:
+        remote: origin
+        revision: main
+  - name: llama-cpp
+    git:
+      remotes:
+        origin: https://github.com/cgruver/llama.cpp.git
+      checkoutFrom:
+        remote: origin
+        revision: main
 #commands:
 #  - id: prep-workspace
 #    apply:
@@ -22,26 +32,26 @@ projects:
 #events:
 #  preStart:
 #    - prep-workspace
-commands:
-  - id: make-dirs
-    exec:
-      component: tools
-      commandLine: 'mkdir /home/user/.continue'
-      workingDir: /
-  - id: copy-artifacts
-    exec:
-      component: tools
-      commandLine: 'cp /projects/home/.continue/config.yaml /home/user/.continue/config.yaml'
-      workingDir: /
-  - id: prep-workspace
-    composite:
-      commands:
-        - make-dirs
-        - copy-artifacts
-      parallel: false
-events:
-  postStart:
-    - prep-workspace
+#commands:
+#  - id: make-dirs
+#    exec:
+#      component: tools
+#      commandLine: 'mkdir /home/user/.continue'
+#      workingDir: /
+#  - id: copy-artifacts
+#    exec:
+#      component: tools
+#      commandLine: 'cp /projects/home/.continue/config.yaml /home/user/.continue/config.yaml'
+#      workingDir: /
+#  - id: prep-workspace
+#    composite:
+#      commands:
+#        - make-dirs
+#        - copy-artifacts
+#      parallel: false
+#events:
+#  postStart:
+#    - prep-workspace
 #  postStart:
 #    - pre-compile-cmd
 components:
@@ -53,9 +63,14 @@ components:
       cpuRequest: '2'
       cpuLimit: '8'
       mountSources: true
-  - name: tools
-    container: registry.redhat.io/ubi9/ubi-minimal:latest
-      mountSources: true
+    env:
+    - name: HOME
+      value: "/projects/home"
+    - name: VSCODE_DEFAULT_WORKSPACE
+      value: "/projects/my-little-code-assistant/my-little-code-assistant.code-workspace"
+#  - name: tools
+#    container: registry.redhat.io/ubi9/ubi-minimal:latest
+#      mountSources: true
 #  - volume:
 #      size: 50Gi
 #    name: projects
