@@ -1,68 +1,56 @@
 apiVersion: v1
 data:
   config.yaml: |
-    name: MyProject
-    version: 0.0.1
+    name: Local Assistant
+    version: 1.0.0
     schema: v1
 
-    models:
-    #  - uses: anthropic/claude-3.5-sonnet
-    #    with:
-    #      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-    #    override:
-    #      defaultCompletionOptions:
-    #        temperature: 0.8
-    #  - name: GPT-4
-    #    provider: openai
-    #    model: gpt-4
-    #    roles:
-    #      - chat
-    #      - edit
-    #    defaultCompletionOptions:
-    #      temperature: 0.5
-    #      maxTokens: 2000
-    #    requestOptions:
-    #      headers:
-    #        Authorization: Bearer YOUR_OPENAI_API_KEY
+    context:
+      - provider: code
+      - provider: docs
+      - provider: diff
+      - provider: terminal
+      - provider: problems
+      - provider: folder
+      - provider: codebase
 
+    models:
       - name: On-prem granite-code 8B
         provider: ollama
-        apiBase: http://ollama.ollama.svc.cluster.local:11434
+        apiBase: http://ollama.ollama.svc.cluster.local
         apiKey: "fake"
         model: granite-code:8b
+        #TODO: Add in certs for model API endpoints
+        #requestOptions:
+        #  caBundlePath: /etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem
+        #  timeout: 300000
         roles:
+          - chat
+          - edit
+          - apply
           - autocomplete
         defaultCompletionOptions:
           temperature: 0.3
           stop:
             - "\n"
-
-    rules:
-      - Give concise responses
-      - Always assume TypeScript rather than JavaScript
-
-    prompts:
-      - name: test
-        description: Unit test a function
-        prompt: |
-          Please write a complete suite of unit tests for this function. You should use the Jest testing framework.  The tests should cover all possible edge cases and should be as thorough as possible.  You should also include a description of each test case.
-      - uses: myprofile/my-favorite-prompt
-
-    context:
-      - uses: continuedev/diff-context
-      - uses: continuedev/codebase-context
-      - uses: continuedev/url-context
-      - uses: continuedev/folder-context
-      - uses: continuedev/terminal-context
-      - uses: continuedev/code-context
-      - uses: continuedev/file-context
-
-    #context:
-    #  - provider: diff
-    #  - provider: file
-    #  - provider: codebase
-    #  - provider: code
-    #  - provider: docs
+#    rules:
+#      - Give concise responses
+#      - Always assume TypeScript rather than JavaScript
+#
+#    prompts:
+#      - name: test
+#        description: Unit test a function
+#        prompt: |
+#          Please write a complete suite of unit tests for this function. You should use the Jest testing framework.  The tests should cover all possible edge cases and should be as thorough as possible.  You should also include a description of each test case.
+#      - uses: myprofile/my-favorite-prompt
+#    context:
+#      - provider: code
+#      - provider: docs
+#      - provider: diff
+#      - provider: terminal
+#      - provider: problems
+#      - provider: folder
+#      - provider: codebase
     #    params:
     #      startUrl: https://docs.example.com/introduction
     #      rootUrl: https://docs.example.com
@@ -88,10 +76,14 @@ data:
 kind: ConfigMap
 metadata:
   name: continue-config-cm
-  #namespace: danclark-devspaces
+  namespace: danclark-devspaces
   labels:
+    app.kubernetes.io/part-of: che.eclipse.org
+    app.kubernetes.io/component: workspaces-config
     controller.devfile.io/mount-to-devworkspace: 'true'
     controller.devfile.io/watch-configmap: 'true'
   annotations:
-    controller.devfile.io/mount-as: file
-    controller.devfile.io/mount-path: '/home/user/.continue'
+#    controller.devfile.io/mount-as: file
+#    controller.devfile.io/mount-path: /home/user/danconfig
+    controller.devfile.io/mount-as: subpath
+    controller.devfile.io/mount-path: /projects/home/.continue
