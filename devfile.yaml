@@ -55,7 +55,7 @@ components:
       mountSources: true
   - name: tools
     container: registry.redhat.io/ubi9/ubi-minimal:latest
-    mountSources: true
+      mountSources: true
 #  - volume:
 #      size: 50Gi
 #    name: projects
