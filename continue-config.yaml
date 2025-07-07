@@ -1,0 +1,32 @@
+name: Local Assistant
+version: 1.0.0
+schema: v1
+
+context:
+  - provider: code
+  - provider: docs
+  - provider: diff
+  - provider: terminal
+  - provider: problems
+  - provider: folder
+  - provider: codebase
+
+models:
+  - name: On-prem granite-code 8B
+    provider: ollama
+    apiBase: http://ollama.ollama.svc.cluster.local
+    apiKey: "fake"
+    model: granite-code:8b
+    #TODO: Add in certs for model API endpoints
+    #requestOptions:
+    #  caBundlePath: /etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem
+    #  timeout: 300000
+    roles:
+      - chat
+      - edit
+      - apply
+      - autocomplete
+    defaultCompletionOptions:
+      temperature: 0.3
+      stop:
+        - "\n"

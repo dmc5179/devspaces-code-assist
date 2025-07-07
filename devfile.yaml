@@ -31,6 +31,14 @@ projects:
 #      checkoutFrom:
 #        remote: origin
 #        revision: main
+commands:
+  - id: copyconfig
+    exec:
+      component: udi
+      commandLine: "mkdir /home/user/.continue && cp /projects/devspaces-code-assist/continue-config.yaml /home/user/.continue/config.yaml"
+events:
+  postStart:
+    - copyconfig
 #commands:
 #  - id: prep-workspace
 #    apply:
@@ -62,14 +70,14 @@ projects:
 #  postStart:
 #    - pre-compile-cmd
 components:
-  - name: dev
+  - name: udi
     container:
-      #image: quay.io/devfile/universal-developer-image:latest
-      image: quay.io/cgruver0/che/workspace-base:latest
+      image: quay.io/devfile/universal-developer-image:latest
+      #image: quay.io/cgruver0/che/workspace-base:latest
       memoryLimit: 16Gi
       memoryRequest: 8Gi
-      cpuRequest: '2'
-      cpuLimit: '8'
+      cpuRequest: 1000m
+      cpuLimit: 4000m
       mountSources: true
     env:
     - name: HOME
