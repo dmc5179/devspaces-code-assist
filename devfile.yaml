@@ -25,12 +25,12 @@ projects:
 commands:
   - id: make-dirs
     exec:
-      component: tools
+      component: dev
       commandLine: 'mkdir /home/user/.continue'
       workingDir: $PROJECTS_ROOT
   - id: copy-artifacts
     exec:
-      component: tools
+      component: dev
       commandLine: 'cp /projects/home/.continue/config.yaml /home/user/.continue/config.yaml'
       workingDir: $PROJECTS_ROOT
   - id: prep-workspace
