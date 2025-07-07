@@ -64,7 +64,8 @@ projects:
 components:
   - name: dev
     container:
-      image: quay.io/devfile/universal-developer-image:latest
+      #image: quay.io/devfile/universal-developer-image:latest
+      image: quay.io/cgruver0/che/workspace-base:latest
       memoryLimit: 16Gi
       memoryRequest: 8Gi
       cpuRequest: '2'
