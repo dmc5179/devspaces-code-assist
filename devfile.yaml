@@ -67,7 +67,7 @@ components:
     - name: HOME
       value: "/projects/home"
     - name: VSCODE_DEFAULT_WORKSPACE
-      value: "/projects/my-little-code-assistant/my-little-code-assistant.code-workspace"
+      value: "/projects/my-little-code-assistant/code-assistant.code-workspace"
 #  - name: tools
 #    container: registry.redhat.io/ubi9/ubi-minimal:latest
 #      mountSources: true
