@@ -25,21 +25,22 @@ projects:
 commands:
   - id: make-dirs
     exec:
-      component: dev
+      component: tools
       commandLine: 'mkdir /home/user/.continue'
-      workingDir: $PROJECTS_ROOT
+      workingDir: /
   - id: copy-artifacts
     exec:
-      component: dev
+      component: tools
       commandLine: 'cp /projects/home/.continue/config.yaml /home/user/.continue/config.yaml'
-      workingDir: $PROJECTS_ROOT
+      workingDir: /
   - id: prep-workspace
     composite:
       commands:
         - make-dirs
         - copy-artifacts
+      parallel: false
 events:
-  preStart:
+  postStart:
     - prep-workspace
 #  postStart:
 #    - pre-compile-cmd
@@ -51,7 +52,10 @@ components:
       memoryRequest: 8Gi
       cpuRequest: '2'
       cpuLimit: '8'
-      #mountSources: true
+      mountSources: true
+  - name: tools
+    container: registry.redhat.io/ubi9/ubi-minimal:latest
+    mountSources: true
 #  - volume:
 #      size: 50Gi
 #    name: projects
