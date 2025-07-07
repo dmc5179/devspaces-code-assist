@@ -1,13 +1,9 @@
 {
 	"folders": [
-		{
-			"name": "my-little-code-assistant",
-			"path": "/projects/my-little-code-assistant"
-		},
-		{
-			"name": "llama-cpp",
-			"path": "/projects/llama.cpp"
-		}
+                {
+                        "name": "my-code-assistant",
+                        "path": "/projects/devspaces-code-assist/"
+                }
 	],
 	"extensions": {
 		"recommendations": [
@@ -17,7 +13,7 @@
 			"streetsidesoftware.code-spell-checker",
 			"johnpapa.winteriscoming",
 			"cnshenj.vscode-task-manager",
-                        "Continue.continue",
+                        "Continue.continue"
 		]
 	},
 	"settings": {

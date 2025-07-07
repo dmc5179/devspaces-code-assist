@@ -10,20 +10,27 @@ attributes:
     controller.devfile.io/storage-type: per-workspace
     #controller.devfile.io/storage-type: ephemeral
 projects:
-  - name: my-little-code-assistant
+  - name: devspaces-code-assist
     git:
       remotes:
-        origin: https://github.com/cgruver/my-little-code-assistant.git
+        origin: https://github.com/dmc5179/devspaces-code-assist.git
       checkoutFrom:
         remote: origin
         revision: main
-  - name: llama-cpp
-    git:
-      remotes:
-        origin: https://github.com/cgruver/llama.cpp.git
-      checkoutFrom:
-        remote: origin
-        revision: main
+#  - name: my-little-code-assistant
+#    git:
+#      remotes:
+#        origin: https://github.com/cgruver/my-little-code-assistant.git
+#      checkoutFrom:
+#        remote: origin
+#        revision: main
+#  - name: llama-cpp
+#    git:
+#      remotes:
+#        origin: https://github.com/cgruver/llama.cpp.git
+#      checkoutFrom:
+#        remote: origin
+#        revision: main
 #commands:
 #  - id: prep-workspace
 #    apply:
