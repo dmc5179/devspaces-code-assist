@@ -29,10 +29,10 @@ data:
           - edit
           - apply
           - autocomplete
-        defaultCompletionOptions:
-          temperature: 0.3
-          stop:
-            - "\n"
+#        defaultCompletionOptions:
+#          temperature: 0.3
+#          stop:
+#            - "\n"
 #    rules:
 #      - Give concise responses
 #      - Always assume TypeScript rather than JavaScript
